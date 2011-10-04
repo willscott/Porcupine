@@ -1,6 +1,8 @@
-obj-m := porcupine.o
+obj-m = porcupine.o
 KDIR := /lib/modules/$(shell uname -r)/build
-PWD := $(shell pwd)
+HERE = /home/guest/porcupine
 
-default:
-        $(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
+all:
+	make -C $(KDIR) M=$(HERE) modules
+clean:
+	make -C $(KDIR) M=$(HERE) clean
