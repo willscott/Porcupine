@@ -2,10 +2,27 @@
  * @fileoverview Interface for the porcupine opcode fuzzer kernel module.
  */
 
+
+
+/**
+ * The identifier for the worker threads spawned by porcupine.
+ */
+#define PROCESS_IDENTIFIER "porcupine"
+
 /**
  * The number of porcupine threads to be spawned by the kernel module.
  */
 #define NUM_THREADS 2
+
+
+/**
+ * The seed to use when generating instructions.  Successive threads created
+ * are run with adjacent seeds (eg. with seed n, the first thread will seed with
+ * n, the next with n+1, and so on.)
+ * This value is loaded with the module.  Use
+ * insmod porcupine.ko SEED=n to set it.
+ */
+static int SEED = 0;
 
 
 /**
