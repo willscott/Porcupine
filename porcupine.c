@@ -2,11 +2,10 @@
 #include <linux/moduleparam.h>
 #include <linux/init.h>
 #include <linux/kthread.h>
+#include <linux/vmalloc.h>
 #include "porcupine.h"
 
 
-module_param(SEED, int, 0);
-MODULE_PARM_DESC(SEED, "The seed to use in generating instructions.");
 
 /**
  * Initialize the porcupine kernel module, and spawn appropriate threads.
@@ -14,12 +13,13 @@ MODULE_PARM_DESC(SEED, "The seed to use in generating instructions.");
 static int __init porcupine_init(void)
 {
   size_t i;
-  int seed = SEED;
+  seeds = (int*)vmalloc(sizeof(int) * NUM_THREADS);
 
-  printk("Porcupine Installed.  Running seed %d.\n", seed);
+  printk("Porcupine Installed.  Running seed %d.\n", SEED);
 
   for (i = 0; i < NUM_THREADS; i++) {
-    kthread_run(porcupine_run, &SEED, PROCESS_IDENTIFIER);
+    seeds[i] = SEED + i;
+    kthread_run(porcupine_run, &seeds[i], PROCESS_IDENTIFIER);
   }
   return 0;
 }
@@ -30,6 +30,7 @@ static int __init porcupine_init(void)
  */
 static void __exit porcupine_exit(void)
 {
+  vfree(seeds);
   printk("Porcupine Removed.\n");
   return;
 }
@@ -37,7 +38,9 @@ static void __exit porcupine_exit(void)
 
 int porcupine_run(void* param) {
   int seed = *(int *)param;
-  printk("Porcupine thread created with seed %d.\n", seed);
+  printk("Porcupine thread %d created with seed %d.\n", current->pid, seed);
+
+  do_exit(0);
   return 0;
 }
 
@@ -48,4 +51,6 @@ module_exit(porcupine_exit);
 MODULE_DESCRIPTION("The porcupine opcode fuzzer.  A module for detecting hardware bugs.");
 MODULE_AUTHOR("Raymond Cheng <ryscheng@cs.washington.edu>, Will Scott <wrs@cs.washington.edu>");
 MODULE_LICENSE("GPL");
+module_param(SEED, int, 0);
+
 
