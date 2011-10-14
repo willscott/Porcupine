@@ -1,5 +1,4 @@
 .*
-porcupine.c
 Module.symvers
 modules.order
 porcupine.mod.*
