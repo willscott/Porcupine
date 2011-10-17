@@ -7,6 +7,7 @@
 #define X86_CR4_VMXE              0x00002000 /* enable VMX virtualization */
 
 #define MSR_IA32_FEATURE_CONTROL  0x0000003a
+#define MSR_IA32_PAT              0x00000280
 #define FEATURE_CONTROL_LOCKED          (1<<0)
 #define FEATURE_CONTROL_VMXON_ENABLED   (1<<2)
 
@@ -34,7 +35,7 @@ static DEFINE_PER_CPU(struct vmcs *, vmxarea);
 
 static void hardware_status() {
   int cpu;
-  u64 status, cr4;
+  u64 status,reg, cr4;
   cpu = raw_smp_processor_id();
   printk("CPU %d: ", cpu);
   status = read_msr(MSR_IA32_FEATURE_CONTROL);
@@ -48,6 +49,8 @@ static void hardware_status() {
   if ((cr4 & X86_CR4_VMXE) == X86_CR4_VMXE) {
     printk("CR4 VMX bit set.");
   }
+  reg = read_msr(MSR_IA32_PAT);
+  printk("Register Value: %x", reg);
   printk("\n");
 }
 
