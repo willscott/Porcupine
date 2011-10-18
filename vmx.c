@@ -7,9 +7,18 @@
 #define X86_CR4_VMXE              0x00002000 /* enable VMX virtualization */
 
 #define MSR_IA32_FEATURE_CONTROL  0x0000003a
-#define MSR_IA32_PAT              0x00000280
+#define MSR_IA32_DEBUGCTL         0x000001d9
+#define MSR_PERF_FIXED_CTR0       0x00000309
+#define MSR_PERF_FIXED_CTR1       0x0000030a
+#define MSR_PERF_FIXED_CTR2       0x0000030b
+
 #define FEATURE_CONTROL_LOCKED          (1<<0)
 #define FEATURE_CONTROL_VMXON_ENABLED   (1<<2)
+
+#define reginfo(reg) do {           \
+  printk("Register %20s: ", #reg); \
+  print_field(reg);                \
+ } while(0)
 
   
 static inline unsigned long long read_msr(unsigned int msr)
@@ -25,6 +34,19 @@ static inline void write_msr(unsigned int msr, unsigned long long val)
         asm volatile("wrmsr" : : "c" (msr), "a"(low), "d" (high) : "memory");
 }
 
+static void print_field(unsigned int reg) {
+  int bit;
+  u64 field = read_msr(reg);
+  for (bit = 63; bit >= 0; bit--) {
+    if ((field & (1 << bit)) == (1 << bit)) {
+      printk("1");
+    } else {
+      printk("0");
+    }
+  }
+  printk("\n");
+}
+
 struct vmcs {
         u32 revision_id;
          u32 abort;
@@ -35,7 +57,7 @@ static DEFINE_PER_CPU(struct vmcs *, vmxarea);
 
 static void hardware_status() {
   int cpu;
-  u64 status,reg, cr4;
+  u64 status, cr4;
   cpu = raw_smp_processor_id();
   printk("CPU %d: ", cpu);
   status = read_msr(MSR_IA32_FEATURE_CONTROL);
@@ -49,9 +71,11 @@ static void hardware_status() {
   if ((cr4 & X86_CR4_VMXE) == X86_CR4_VMXE) {
     printk("CR4 VMX bit set.");
   }
-  reg = read_msr(MSR_IA32_PAT);
-  printk("Register Value: %x", reg);
   printk("\n");
+  reginfo(MSR_IA32_DEBUGCTL);
+  reginfo(MSR_PERF_FIXED_CTR0);
+  reginfo(MSR_PERF_FIXED_CTR1);
+  reginfo(MSR_PERF_FIXED_CTR2);
 }
 
 static void hardware_enable(void *garbage)
