@@ -1,5 +1,6 @@
 ASMFILES=porchello.asm.app
-CFILES=porchelloc.c.app
+CFILES=porchelloc.c.app porcupine.c.app
+NUMTHREADS=1
 
 CC=gcc
 AS=nasm
@@ -17,6 +18,9 @@ libBareMetal.o: libBareMetal.c libBareMetal.h
 %.c.app: %.c libBareMetal.o libBareMetal.h
 	$(CC) $(CFLAGS) -o $<.o $<
 	$(LD) -T app.ld -o $@ $<.o libBareMetal.o
+
+babies:
+	python ../porcumommy.py $(NUMTHREADS)
 
 all: $(ASMFILES) $(CFILES)
 

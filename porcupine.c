@@ -4,6 +4,7 @@
 #include <linux/kthread.h>
 #include <linux/vmalloc.h>
 #include "porcupine.h"
+#include "porcubaby.c"
 
 /* Module Information */
 MODULE_DESCRIPTION("The porcupine opcode fuzzer.  A module for detecting hardware bugs.");
@@ -42,7 +43,4 @@ static void __exit porcupine_exit(void)
 module_init(porcupine_init);
 module_exit(porcupine_exit);
 
-/**
- * Thread run()
- */
 

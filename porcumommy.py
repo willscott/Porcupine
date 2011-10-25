@@ -1,7 +1,6 @@
 import sys
 usage = 'python porcumommy.py <#threads>'
-original_filename = 'porcupine-orig.c'
-dest_filename = 'porcupine.c'
+dest_filename = 'porcubaby.c'
 
 def genasm( threadid ):
 	asmresult = ('int asm'+str(threadid)+'(int id) {\n'
@@ -26,12 +25,9 @@ if __name__ == '__main__':
 	num_threads = int(sys.argv[1])
 	print 'Generating porcupine kernel module source with threads=' + str(num_threads)
 	
-	fr = open(original_filename, 'r')
 	fw = open(dest_filename, 'w')
 	fw.write('//The number of porcupine threads to be spawned by the kernel module.\n')
 	fw.write('#define NUM_THREADS '+str(num_threads)+'\n')
-	for line in fr:
-		fw.write(line)
 	
 	#Generate assembly sequences for each thread
 	for i in range(num_threads):
@@ -41,7 +37,7 @@ if __name__ == '__main__':
 	fw.write(''
 	'int porcupine_run(void* param) {\n'
   	'  int id = *(int *)param;\n'
-  	'  printk("Porcupine thread %d created with id %d.\\n", current->pid, id);\n')
+	'  printk("Porcupine thread %d created with id %d.\\n", current->pid, id);\n')
 	for i in range(num_threads):
 		fw.write('  if (id == '+str(i)+') asm'+str(i)+'(id);\n')
   	fw.write(''
@@ -49,7 +45,6 @@ if __name__ == '__main__':
   	'  return 0;\n'
 	'}')
 
-	fr.close()
 	fw.close()
 
 
