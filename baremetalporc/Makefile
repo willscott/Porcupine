@@ -1,6 +1,6 @@
-ASMFILES=porchello.asm.app
-CFILES=porchelloc.c.app porcupine.c.app
-NUMTHREADS=1
+ASMFILES=porcuhello.asm.app porcubaby.asm.app
+CFILES=porcuhelloc.c.app
+NUMTHREADS=2
 
 CC=gcc
 AS=nasm
@@ -20,7 +20,7 @@ libBareMetal.o: libBareMetal.c libBareMetal.h
 	$(LD) -T app.ld -o $@ $<.o libBareMetal.o
 
 babies:
-	python ../porcumommy.py $(NUMTHREADS)
+	python ./porcumommy.py $(NUMTHREADS)
 
 all: $(ASMFILES) $(CFILES)
 
@@ -28,8 +28,13 @@ install:
 	echo "Copying files to BareMetal.vmdk"	
 	./vmware-mount ./BareMetal.vmdk 1 ./vmdk/
 	cp *.app vmdk/
+	sleep 1
+	umount vmdk
+
+umount:
 	umount vmdk
 
 clean:
 	rm *.app
 	rm *.o
+	rm -rf *.lck
