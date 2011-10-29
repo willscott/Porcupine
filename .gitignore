@@ -1,6 +1,9 @@
 .*
+porcubaby.c
+porcubaby.asm
 Module.symvers
 modules.order
 porcupine.mod.*
 *.o
 *.ko
+*.app
