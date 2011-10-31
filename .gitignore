@@ -7,3 +7,4 @@ porcupine.mod.*
 *.o
 *.ko
 *.app
+*.pyc
