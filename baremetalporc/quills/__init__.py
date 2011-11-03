@@ -5,9 +5,11 @@ Load quills for the porcupine.
 import random
 import string
 
+import interrupt
 import load
 
 modules = [
+  interrupt.interrupt(),
   load.load()
 ]
 

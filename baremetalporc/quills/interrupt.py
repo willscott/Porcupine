@@ -1,14 +1,21 @@
 import random
 
 class interrupt:
+  throwInterval = 0.1
+
   interrupts = [
+    'cli',   # disable interrupts
+    'sti',   # enable interrupts
     'fclex', # clear floating point exceptions
-    'into',  # interrupt (sig 4) if overflow
+    'invd',  # invalidate processor internal caches.
     'int1',
     'int3',
     'smi'
   ]
 
   def genOp(self):
-    return random.choice(self.interrupts)
+    if (random.random() < self.throwInterval):
+      return random.choice(self.interrupts)
+
+    return ''
 
