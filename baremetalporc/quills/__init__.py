@@ -7,10 +7,12 @@ import string
 
 import interrupt
 import load
+import store
 
 modules = [
   interrupt.interrupt(),
-  load.load()
+  load.load(),
+  store.store()
 ]
 
 def render(seed, count):
