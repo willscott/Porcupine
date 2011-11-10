@@ -530,7 +530,7 @@ ap_process:				; Set the status byte to "Busy" and run the code
 %include "ipv4.asm"
 %include "sysvar.asm"			; Include this last to keep the read/write variables away from the code
 
-times 16384-($-$$) db 0			; Set the compiled kernel binary to at least this size in bytes
+times 20384-($-$$) db 0			; Set the compiled kernel binary to at least this size in bytes
 
 
 ; =============================================================================

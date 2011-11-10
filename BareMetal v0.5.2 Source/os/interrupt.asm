@@ -17,7 +17,8 @@ exception_gate:
 	call os_print_string
 	mov rsi, exc_string
 	call os_print_string
-	jmp $				; Hang
+        iretq
+;	jmp $				; Hang
 ; -----------------------------------------------------------------------------
 
 
@@ -366,24 +367,28 @@ interrupt_enable_low:
 ; CPU Exception Gates
 align 16
 exception_gate_00:
+  iretq
 	push rax
 	mov al, 0x00
 	jmp exception_gate_main
 
 align 16
 exception_gate_01:
+  iretq
 	push rax
 	mov al, 0x01
 	jmp exception_gate_main
 
 align 16
 exception_gate_02:
+  iretq
 	push rax
 	mov al, 0x02
 	jmp exception_gate_main
 
 align 16
 exception_gate_03:
+  iretq
 	push rax
 	mov al, 0x03
 	jmp exception_gate_main
