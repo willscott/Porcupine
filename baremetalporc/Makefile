@@ -1,4 +1,4 @@
-ASMFILES=porcuhello.asm.app porcubaby.asm.app
+ASMFILES=porcuhello.asm.app porcubaby.asm.app porcutalk-server.asm.app porcutalk-client.asm.app
 CFILES=porcuhelloc.c.app
 NUMTHREADS=2
 
@@ -28,11 +28,16 @@ install:
 	echo "Copying files to BareMetal.vmdk"	
 	./vmware-mount ./BareMetal.vmdk 1 ./vmdk/
 	cp *.app vmdk/
+	echo "Copying files to BareMetal2.vmdk"	
+	./vmware-mount ./BareMetal2.vmdk 1 ./vmdk2/
+	cp *.app vmdk2/
 	sleep 1
 	umount vmdk
+	umount vmdk2
 
 umount:
 	umount vmdk
+	umount vmdk2
 
 clean:
 	rm *.app
