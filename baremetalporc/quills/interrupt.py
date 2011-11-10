@@ -8,9 +8,11 @@ class interrupt:
     'sti',   # enable interrupts
     'fclex', # clear floating point exceptions
     'invd',  # invalidate processor internal caches.
+    'wbinvd',
     'int1',
     'int3',
-    'smi'
+    'smi',
+    'wait',
   ]
 
   def genOp(self):
