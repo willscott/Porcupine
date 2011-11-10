@@ -4,7 +4,6 @@
 %include "bmdev.asm"
 
 start:
-	call b_smp_numcores
 	rdtsc			;Time = 64-bit stored in EDX:EAX
 	mov ebx, [cycles_in_epoch]
 	div ebx			;Divides EDX:EAX by EBX and stores in EDX:EAX
