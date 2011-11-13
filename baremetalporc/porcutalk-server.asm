@@ -7,12 +7,13 @@ start:
 	rdtsc			;Time = 64-bit stored in EDX:EAX
 	mov ebx, [cycles_in_epoch]
 	div ebx			;Divides EDX:EAX by EBX and stores in EDX:EAX
-	mov [current_epoch], eax
+	mov ebx, eax;
 	call b_smp_numcores ; RAX gets number of cores.
 	mov rcx, rax        ; move number to ecx
   mov rax, pad_nop    ; set smp workload pointer
 
 spawn:
+  mov [current_epoch + rcx], ebx
   call b_smp_enqueue
   sub rcx, 1
   cmp rcx, 0
