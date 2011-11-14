@@ -4,13 +4,14 @@
 %include "bmdev.asm"
 
 start:
-	rdtsc			;Time = 64-bit stored in EDX:EAX
-	mov ebx, [cycles_in_epoch]
-	div ebx			;Divides EDX:EAX by EBX and stores in EDX:EAX
-	mov [current_epoch], eax
-	call b_smp_numcores ; RAX gets number of cores.
-	mov rcx, rax        ; move number to ecx
-  mov rax, pad_nop    ; set smp workload pointer
+  rdtsc				;Time = 64-bit stored in EDX:EAX
+  mov ebx, [cycles_in_epoch]
+  div ebx			;Divides EDX:EAX by EBX and stores in EDX:EAX
+  mov ebx, current_epoch
+  mov [ebx], eax
+  call b_smp_numcores 		; RAX gets number of cores.
+  mov rcx, rax        		; move number to ecx
+  mov rax, pad_nop    		; set smp workload pointer
 
 spawn:
   call b_smp_enqueue
@@ -86,6 +87,7 @@ section .data
   cr_str: 	db 13, 0
   dash_str:	db 32, 45, 32, 0
 
+  num_cores	dd 0x00000008
   cycles_in_epoch:dd 0xCAA7E200	;3.4*10^9 cycles = 1 second
   num_loops: 	dd 0x00000800	;Number of loops to run per epoch
   num_epochs:	dd 0x0000000a	;Number of epochs to run in program
