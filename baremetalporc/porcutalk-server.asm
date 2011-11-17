@@ -2,6 +2,7 @@
 [ORG 0x0000000000200000]
 
 %include "bmdev.asm"
+%include "branches.asm"
 
 start:
 	rdtsc			;Time = 64-bit stored in EDX:EAX
@@ -10,7 +11,8 @@ start:
 	mov ebx, eax;
 	call b_smp_numcores ; RAX gets number of cores.
 	mov rcx, rax        ; move number to ecx
-  mov rax, pad_nop    ; set smp workload pointer
+	mov rax, pad_nop    ; set smp workload pointer
+	call forward        ; Set direction of inner loop.
 
 spawn:
   mov [current_epoch + rcx], ebx
@@ -45,12 +47,8 @@ start_loop:
 	mov [start_time + r9], rax	;Store the start time
 	xor rcx, rcx		;Clear rcx
 	mov ecx, [num_loops]
+	call branch
 
-loop:
-	dec ecx
-	cmp ecx, 0
-	jne loop
-	
 end_loop:
 	rdtsc			;Print time it took
 	shl rdx, 32
