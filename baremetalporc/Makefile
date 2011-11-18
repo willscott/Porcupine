@@ -9,7 +9,7 @@ LD=ld
 CFLAGS=-c -m64 -nostdlib -nostartfiles -nodefaultlibs -fomit-frame-pointer -finline-functions 
 
 #Assembly
-%.asm.app: %.asm bmdev.asm
+%.asm.app: %.asm bmdev.asm branches.asm
 	$(AS) -f bin -o $@ $<
 
 #C

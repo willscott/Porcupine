@@ -31,9 +31,9 @@ if __name__ == '__main__':
   fw.write('\tret\n')
   #The Loop
   fw.write('branch:\n')
-  fw.write('\tmov al, 1\n');
-  fw.write('\tcmp [branch_base + 1], al\n')
-  fw.write('\tjne branch_' + str(count - 1) + '\n')
+  fw.write('\tmov al, [branch_base + 1]\n')
+  fw.write('\tcmp al, 0\n')
+  fw.write('\tje branch_' + str(count - 1) + '\n')
   fw.write('\tjmp branch_1\n')
   fw.write('branch_0:\n')
   fw.write('\tjmp branchend\n')
