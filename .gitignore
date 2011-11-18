@@ -1,6 +1,7 @@
 .*
 porcubaby.c
 porcubaby.asm
+branches.asm
 Module.symvers
 modules.order
 porcupine.mod.*
