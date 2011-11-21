@@ -8,13 +8,11 @@ start:
   mov ebx, [cycles_in_epoch]
   div ebx			;Divides EDX:EAX by EBX and stores in EDX:EAX
   mov ebx, eax;
-  call forward        		; Set direction of inner loop.
-  				;Note! This will trash your rcx and rax
   call b_smp_numcores 		; RAX gets number of cores.
   mov rcx, rax        		; move number to ecx
   mov rax, start_thread		; set smp workload pointer
   dec rcx
-				;ebx = current epoch, rcx = (numcores-1), rax = pad_nop addr
+				;ebx = current epoch, rcx = (numcores-1), rax = start_thread addr
 spawn:
   mov [current_epoch + 4*rcx], ebx
   call b_smp_enqueue
@@ -60,7 +58,11 @@ start_loop:
   xor rcx, rcx			;Clear rcx
   mov ecx, [num_loops]
   ;DO IT!!!
-  call branch
+inner_loop:
+  call branch_take
+  dec ecx
+  cmp ecx, 0
+  jne inner_loop
 
 end_loop:
   rdtsc				;Print time it took
@@ -140,7 +142,7 @@ section .data
   core_num	dd 0x00000000
   num_cores	dq 0x00000008
   cycles_in_epoch:dd 0xCAA7E200	;3.4*10^9 cycles = 1 second
-  num_loops: 	dd 0x00008000	;Number of loops to run per epoch
+  num_loops: 	dd 0x00000100	;Number of loops to run per epoch
   num_epochs:	dd 0x0000000a	;Number of epochs to run in program
 
 section .bss

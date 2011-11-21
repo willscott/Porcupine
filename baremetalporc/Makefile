@@ -1,7 +1,7 @@
 ASMFILES=porcuhello.asm.app porcubaby.asm.app porcutalk-server.asm.app porcutalk-client.asm.app
 CFILES=porcuhelloc.c.app
 NUMTHREADS=2
-LOOPSIZE=8000
+LOOPSIZE=800
 
 CC=gcc
 AS=nasm
