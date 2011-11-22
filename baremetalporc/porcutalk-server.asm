@@ -59,7 +59,7 @@ start_loop:
   mov ecx, [num_loops]
   ;DO IT!!!
 inner_loop:
-  call branch_take
+  call branch_up
   dec ecx
   cmp ecx, 0
   jne inner_loop

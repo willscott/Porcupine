@@ -1,7 +1,7 @@
 ASMFILES=porcuhello.asm.app porcubaby.asm.app porcutalk-server.asm.app porcutalk-client.asm.app
 CFILES=porcuhelloc.c.app
 NUMTHREADS=2
-LOOPSIZE=800
+LOOPSIZE=8000
 
 CC=gcc
 AS=nasm
@@ -23,7 +23,7 @@ libBareMetal.o: libBareMetal.c libBareMetal.h
 babies:
 	python ./porcumommy.py $(NUMTHREADS)
 branches:
-	python ./branchbuilder.py $(LOOPSIZE)
+	python ./branchbuilder.py $(LOOPSIZE) 8 8
 
 all: $(ASMFILES) $(CFILES)
 

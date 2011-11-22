@@ -63,13 +63,13 @@ start_loop:
   cmp eax, 0
   je loop_miss
 loop_take:
-  call branch_take
-  dec ecx
-  cmp ecx, 0
-  jne loop_take
+  ;call branch_take
+  ;dec ecx
+  ;cmp ecx, 0
+  ;jne loop_take
   jmp end_loop
 loop_miss:
-  call branch_leave
+  call branch_down
   dec ecx
   cmp ecx, 0
   jne loop_miss
