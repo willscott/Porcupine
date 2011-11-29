@@ -144,7 +144,7 @@ exit:
 
 section .data
   message: db 'Hello World!'
-  msglen:  equ     $-message
+  msglen:  dd  0x0c
 
   cr_str: 	db 13, 0
   dash_str:	db 32, 45, 32, 0
